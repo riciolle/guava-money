@@ -8,4 +8,6 @@ public interface PessoaService {
 
 	public void updateAtivo(Long codigo, Boolean ativo);
 
+	Pessoa getByCodigo(Long codigo);
+
 }

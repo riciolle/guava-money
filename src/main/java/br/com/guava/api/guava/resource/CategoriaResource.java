@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.guava.api.guava.entity.Categoria;
 import br.com.guava.api.guava.event.ResourceCreatedEvent;
 import br.com.guava.api.guava.repository.CategoriaRepository;
+import br.com.guava.api.guava.service.CategoriaService;
 
 @RestController
 @RequestMapping("/categorias")
@@ -28,6 +30,9 @@ public class CategoriaResource {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+	
+	@Autowired
+	private CategoriaService categoriaService;
 	
 	// E um publicador de eventos da aplicação
 	@Autowired
@@ -56,5 +61,11 @@ public class CategoriaResource {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long codigo) {
 		categoriaRepository.delete(codigo);
+	}
+	
+	@PutMapping("/{codigo}")
+	public ResponseEntity<Categoria> update(@PathVariable Long codigo, @RequestBody Categoria categoria) {
+		Categoria categoriSaved = categoriaService.update(codigo, categoria);
+		return ResponseEntity.ok(categoriSaved);
 	}
 }

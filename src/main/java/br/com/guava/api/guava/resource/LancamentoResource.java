@@ -1,0 +1,88 @@
+package br.com.guava.api.guava.resource;
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.guava.api.guava.entity.Lancamento;
+import br.com.guava.api.guava.event.ResourceCreatedEvent;
+import br.com.guava.api.guava.exceptionhandle.GuavaExceptionHandler.Error;
+import br.com.guava.api.guava.repository.LancamentoRepository;
+import br.com.guava.api.guava.repository.filter.LancamentoFilter;
+import br.com.guava.api.guava.service.LancamentoService;
+import br.com.guava.api.guava.service.exception.PessoaInexistenteOuInativaException;
+
+@RestController
+@RequestMapping("/lancamentos")
+public class LancamentoResource {
+
+	@Autowired
+	private LancamentoRepository categoriaRepository;
+	
+	@Autowired
+	private LancamentoService lancamentoService;
+
+	// E UM PUBLICADOR DE EVENTOS DA APLICAÇÃO
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
+	
+	@Autowired
+	private MessageSource messageSource;
+
+	@PostMapping
+	public ResponseEntity<Lancamento> save(@Valid @RequestBody Lancamento lancamento, HttpServletResponse httpServletResponse) {
+		Lancamento categoriaSaved = lancamentoService.save(lancamento);
+		// SOURCE E QUEM GEROU O EVENTO E COMO ESTA COM PASSANDO THIS SIGNIFICA QUE FOI A CLASSE LANCAMENTORESOURCE
+		applicationEventPublisher.publishEvent(new ResourceCreatedEvent(this, httpServletResponse, lancamento.getCodigo()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSaved);
+	}
+
+	@GetMapping("/{codigo}")
+	public ResponseEntity<Lancamento> getByCodigo(@PathVariable Long codigo) {
+		Lancamento categoria = categoriaRepository.findOne(codigo);
+		return categoria != null ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
+	}
+
+	@GetMapping
+	public List<Lancamento> findAll() {
+		return categoriaRepository.findAll();
+	}
+	
+	@GetMapping
+	public List<Lancamento> find(LancamentoFilter lancamentoFilter) {
+		return categoriaRepository.filter(lancamentoFilter);
+	}
+
+	@DeleteMapping("/{codigo}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable Long codigo) {
+		categoriaRepository.delete(codigo);
+	}
+	
+	@ExceptionHandler({ PessoaInexistenteOuInativaException.class })
+	public ResponseEntity<Object> handlePessoaInexistenteOuInativaException(PessoaInexistenteOuInativaException ex) {
+		String mensagemUsuario = messageSource.getMessage("pessoa.inexistente-ou-inativa", null, LocaleContextHolder.getLocale());
+		String mensagemDesenvolvedor = ex.toString();
+		List<Error> erros = Arrays.asList(new Error(mensagemUsuario, mensagemDesenvolvedor));
+		return ResponseEntity.badRequest().body(erros);
+	}
+
+}

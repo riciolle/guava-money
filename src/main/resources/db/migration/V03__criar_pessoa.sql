@@ -9,5 +9,5 @@ CREATE TABLE pessoa (
 	cidade VARCHAR(64),
 	estado VARCHAR(64),
 	ativo BOOLEAN NOT NULL,
-CONSTRAINT pk_codigo PRIMARY KEY (codigo)
+CONSTRAINT pk_codigo_pessoa PRIMARY KEY (codigo)
 );

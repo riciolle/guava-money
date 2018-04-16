@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,7 +33,7 @@ public class GuavaExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
-		String mensagemDesenvolvedor = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
+		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
 		List<Error> errors = Arrays.asList(new Error(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
 	}
@@ -53,10 +55,27 @@ public class GuavaExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest webRequest) {
 		
 		String mensagemUsuario = messageSource.getMessage("recurso.nao-encontrado", null, LocaleContextHolder.getLocale());
-		String mensagemDesenvolvedor = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
+		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
 		List<Error> errors = Arrays.asList(new Error(mensagemUsuario, mensagemDesenvolvedor));
 		
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, webRequest);
+	}
+	
+	/**
+	 * 
+	 * Classe responsavel por tratar exceções especificas.
+	 * @DataIntegrityViolationException
+	 * @author leonardo.aires
+	 * @since 16-04-2018
+	 */
+	@ExceptionHandler({DataIntegrityViolationException.class})
+	public ResponseEntity<Object> handleDataIntegrityViolationException(EmptyResultDataAccessException ex, WebRequest webRequest) {
+		
+		String mensagemUsuario = messageSource.getMessage("recurso.operacao-nao-permitida", null, LocaleContextHolder.getLocale());
+		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+		List<Error> errors = Arrays.asList(new Error(mensagemUsuario, mensagemDesenvolvedor));
+		
+		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
 	}
 	
 	private List<Error> createListError(BindingResult bindingResult) {

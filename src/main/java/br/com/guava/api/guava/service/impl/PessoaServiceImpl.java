@@ -30,12 +30,12 @@ public class PessoaServiceImpl implements PessoaService {
 		
 	}
 	
-	private Pessoa getByCodigo(Long codigo) {
+	@Override
+	public Pessoa getByCodigo(Long codigo) {
 		Pessoa pessoaSaved = pessoaRepository.findOne(codigo);
 		if (pessoaSaved == null) {
 			throw new EmptyResultDataAccessException(1);
 		}
 		return pessoaSaved;
 	}
-	
 }
