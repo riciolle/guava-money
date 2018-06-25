@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ import br.com.guava.api.guava.event.ResourceCreatedEvent;
 import br.com.guava.api.guava.exceptionhandle.GuavaExceptionHandler.Error;
 import br.com.guava.api.guava.repository.LancamentoRepository;
 import br.com.guava.api.guava.repository.filter.LancamentoFilter;
+import br.com.guava.api.guava.repository.projection.ResumoLancamento;
 import br.com.guava.api.guava.service.LancamentoService;
 import br.com.guava.api.guava.service.exception.PessoaInexistenteOuInativaException;
 
@@ -50,6 +52,7 @@ public class LancamentoResource {
 	private MessageSource messageSource;
 
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
 	public ResponseEntity<Lancamento> save(@Valid @RequestBody Lancamento lancamento, HttpServletResponse httpServletResponse) {
 		Lancamento categoriaSaved = lancamentoService.save(lancamento);
 		// SOURCE E QUEM GEROU O EVENTO E COMO ESTA COM PASSANDO THIS SIGNIFICA QUE FOI A CLASSE LANCAMENTORESOURCE
@@ -58,23 +61,33 @@ public class LancamentoResource {
 	}
 
 	@GetMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public ResponseEntity<Lancamento> getByCodigo(@PathVariable Long codigo) {
 		Lancamento categoria = categoriaRepository.findOne(codigo);
 		return categoria != null ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
 	}
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public List<Lancamento> findAll() {
 		return categoriaRepository.findAll();
 	}
 	
 	@GetMapping("consultar")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public Page<Lancamento> find(LancamentoFilter lancamentoFilter, Pageable pageable) {
 		return categoriaRepository.filter(lancamentoFilter, pageable);
+	}
+	
+	@GetMapping(params="resume")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public Page<ResumoLancamento> resume(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		return categoriaRepository.resume(lancamentoFilter, pageable);
 	}
 
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('delete')")
 	public void delete(@PathVariable Long codigo) {
 		categoriaRepository.delete(codigo);
 	}
