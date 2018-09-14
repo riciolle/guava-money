@@ -51,6 +51,7 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
 		// E acessivel apenas em HTTP
 		refreshTokenCookie.setHttpOnly(true);
 		// Cookie deve apenas funcionar em HTTPS (SEMPRE SEGURO) 
+		// CONFIGURAÇÃO FEITA A PARTIR DE PROPRIEDADES "application-prod.properties"
 		refreshTokenCookie.setSecure(guavaApiProperty.getSecurity().isEnableHttps());
 		// Caminho que deve ser enviado quando for feita a requisção
 		refreshTokenCookie.setPath(req.getContextPath() + "/oauth/token");

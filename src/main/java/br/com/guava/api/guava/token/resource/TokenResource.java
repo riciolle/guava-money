@@ -1,4 +1,4 @@
-package br.com.guava.api.guava.resource;
+package br.com.guava.api.guava.token.resource;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +23,7 @@ public class TokenResource {
 	public void revoke(HttpServletRequest request, HttpServletResponse response) {
 		Cookie cookie = new Cookie("refreshToken", null);
 		cookie.setHttpOnly(true);
+		// CONFIGURAÇÃO FEITA A PARTIR DE PROPRIEDADES "application-prod.properties"
 		cookie.setSecure(guavaApiProperty.getSecurity().isEnableHttps());
 		cookie.setPath(request.getContextPath() + "/oauth/token");
 		cookie.setMaxAge(0);

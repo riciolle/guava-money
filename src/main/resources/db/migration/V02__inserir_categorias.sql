@@ -1,1 +1,0 @@
-INSERT INTO categoria (nome) values ('Vestido');
