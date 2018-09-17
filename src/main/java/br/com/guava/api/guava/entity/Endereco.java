@@ -2,10 +2,7 @@ package br.com.guava.api.guava.entity;
 
 import javax.persistence.Embeddable;
 
-import org.hibernate.envers.Audited;
-
 @Embeddable
-@Audited
 public class Endereco {
 
 	private String logradouro;
