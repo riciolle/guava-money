@@ -1,0 +1,4 @@
+CREATE TABLE categoria (
+	codigo BIGINT PRIMARY KEY,
+	nome VARCHAR(50) NOT NULL
+);

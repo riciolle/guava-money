@@ -9,7 +9,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.guava.api.guava.entity.Usuario;
 import br.com.guava.api.guava.repository.UsuarioRepository;
+import br.com.guava.api.guava.security.entity.UserSystem;
 
 @Service
 public class AppUserDetailService implements UserDetailsService {
@@ -28,7 +28,7 @@ public class AppUserDetailService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
 		Usuario usuario = usuarioOptional.orElseThrow(() -> new UsernameNotFoundException("Usuario e/ou senha incorretos ! "));
-		return new User(email, usuario.getSenha(), getPermissoes(usuario));
+		return new UserSystem(usuario, getPermissoes(usuario));
 		
 	}
 

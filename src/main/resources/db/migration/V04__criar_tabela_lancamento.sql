@@ -1,6 +1,6 @@
 CREATE TABLE lancamento (
-	codigo SERIAL,
-	descricao VARCHAR(50) NOT NULL,
+	codigo BIGINT PRIMARY KEY,
+	descricao VARCHAR(100) NOT NULL,
 	data_vencimento DATE NOT NULL,
 	data_pagamento DATE,
 	valor DECIMAL(10,2) NOT NULL,
@@ -8,7 +8,6 @@ CREATE TABLE lancamento (
 	tipo VARCHAR(20) NOT NULL,
 	codigo_categoria BIGINT NOT NULL,
 	codigo_pessoa BIGINT NOT NULL,
-CONSTRAINT pk_codigo_lancamento PRIMARY KEY (codigo),
-FOREIGN KEY (codigo_categoria) REFERENCES categoria(codigo),
-FOREIGN KEY (codigo_pessoa) REFERENCES pessoa(codigo)
+	FOREIGN KEY (codigo_categoria) REFERENCES categoria(codigo),
+	FOREIGN KEY (codigo_pessoa) REFERENCES pessoa(codigo)
 );
