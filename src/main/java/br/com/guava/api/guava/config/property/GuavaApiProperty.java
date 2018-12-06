@@ -9,7 +9,7 @@ import lombok.Setter;
 public class GuavaApiProperty {
 	
 	@Getter @Setter
-	private String originPermitida = "http://localhost:8080";
+	private String originPermitida = "http://localhost:4200";
 
 	private final Security security = new Security();
 

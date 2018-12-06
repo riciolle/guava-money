@@ -1,5 +1,6 @@
 package br.com.guava.api.guava.service.impl;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,37 @@ public class LancamentoServiceImpl implements LancamentoService {
 			throw new PessoaInexistenteOuInativaException();
 		}
 		return lancamentoRepository.save(lancamento);
+	}
+	
+	@Override
+	public Lancamento update(Long codigo, Lancamento lancamento) {
+		Lancamento lancamentoAux = buscarLancamentoExistente(codigo);
+		if (!lancamento.getPessoa().equals(lancamentoAux.getPessoa())) {
+			validarPessoa(lancamento);
+		}
+		
+		BeanUtils.copyProperties(lancamento, lancamentoAux, "codigo");
+		
+		return lancamentoRepository.save(lancamentoAux);
+	}
+
+	private void validarPessoa(Lancamento lancamento) {
+		Pessoa pessoa = null;
+		if (lancamento.getPessoa().getCodigo() != null) {
+			pessoa = pessoaRepository.findOne(lancamento.getPessoa().getCodigo());
+		}
+		
+		if (pessoa != null && pessoa.isInativo()) {
+			throw new PessoaInexistenteOuInativaException();
+		}
+	}
+
+	private Lancamento buscarLancamentoExistente(Long codigo) {
+		Lancamento lancamento = lancamentoRepository.findOne(codigo);
+		if (lancamento == null) {
+			throw new IllegalArgumentException();
+		}
+		return lancamento;
 	}
 	
 }

@@ -6,4 +6,6 @@ public interface LancamentoService {
 
 	Lancamento save(Lancamento lancamento);
 
+	Lancamento update(Long codigo, Lancamento lancamento);
+
 }
