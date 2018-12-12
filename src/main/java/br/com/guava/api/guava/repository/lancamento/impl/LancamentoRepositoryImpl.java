@@ -51,10 +51,14 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
 		Root<Lancamento> root = criteria.from(Lancamento.class);
 
-		criteria.select(builder.construct(ResumoLancamento.class, root.get("codigo"), 
-				root.get("descricao"), root.get("dataVencimento"), 
+		criteria.select(builder.construct(ResumoLancamento.class, 
+				root.get("codigo"), 
+				root.get("descricao"), 
+				root.get("dataVencimento"), 
 				root.get("dataPagamento"), root.get("valor"),
-				root.get("tipo"), root.get("categoria").get("nome"), root.get("pessoa").get("nome")));
+				root.get("tipo"), 
+				root.get("categoria").get("nome"), 
+				root.get("pessoa").get("nome")));
 
 		// CRIAR RESTRIÇÔES
 		Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
@@ -71,15 +75,15 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		List<Predicate> predicates = new ArrayList<>(0);
 
 		if (!StringUtils.isEmpty(lancamentoFilter.getDescricao())) {
-			predicates.add(builder.like(builder.lower(root.get("descricao")), "%" + lancamentoFilter.getDescricao() + "%"));
+			predicates.add(builder.like(builder.lower(root.get("descricao")), "%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
 		}
 
 		if (lancamentoFilter.getDataVencimentoDe() != null) {
-			predicates.add(builder.greaterThanOrEqualTo(root.get("data_vencimento"), lancamentoFilter.getDataVencimentoDe()));
+			predicates.add(builder.greaterThanOrEqualTo(root.get("dataVencimento"), lancamentoFilter.getDataVencimentoDe()));
 		}
 
 		if (lancamentoFilter.getDataVencimentoAte() != null) {
-			predicates.add(builder.lessThanOrEqualTo(root.get("data_vencimento"), lancamentoFilter.getDataVencimentoAte()));
+			predicates.add(builder.lessThanOrEqualTo(root.get("dataVencimento"), lancamentoFilter.getDataVencimentoAte()));
 		}
 
 		return predicates.toArray(new Predicate[predicates.size()]);

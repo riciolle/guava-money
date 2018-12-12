@@ -63,8 +63,8 @@ public class PessoaResource {
 	}
 
 	@DeleteMapping("/{codigo}")
-	@PreAuthorize("hasAuthority('ROLE_REMOVER_PESSOA') and #oauth2.hasScope('delete')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_PESSOA') and #oauth2.hasScope('delete')")
 	public void delete(@PathVariable Long codigo) {
 		pessoaRepository.delete(codigo);
 	}

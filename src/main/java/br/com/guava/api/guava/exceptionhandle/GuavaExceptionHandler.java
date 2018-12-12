@@ -69,7 +69,7 @@ public class GuavaExceptionHandler extends ResponseEntityExceptionHandler {
 	 * @since 16-04-2018
 	 */
 	@ExceptionHandler({DataIntegrityViolationException.class})
-	public ResponseEntity<Object> handleDataIntegrityViolationException(EmptyResultDataAccessException ex, WebRequest webRequest) {
+	public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest webRequest) {
 		
 		String mensagemUsuario = messageSource.getMessage("recurso.operacao-nao-permitida", null, LocaleContextHolder.getLocale());
 		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
