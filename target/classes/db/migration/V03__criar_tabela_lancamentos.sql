@@ -1,4 +1,4 @@
-CREATE TABLE lancamento (
+ CREATE TABLE lancamento (
 	codigo SERIAL,
 	descricao VARCHAR(50) NOT NULL,
 	data_vencimento DATE NOT NULL,

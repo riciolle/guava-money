@@ -1,4 +1,4 @@
-CREATE TABLE pessoa (
+  CREATE TABLE pessoa (
 	codigo SERIAL,
 	nome VARCHAR(64) NOT NULL,
 	logradouro VARCHAR(64),
