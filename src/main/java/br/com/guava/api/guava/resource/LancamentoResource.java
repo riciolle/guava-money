@@ -1,5 +1,6 @@
 package br.com.guava.api.guava.resource;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.guava.api.guava.dto.LancamentoEstatisticaCategoriaDTO;
+import br.com.guava.api.guava.dto.LancamentoEstatisticaDiaDTO;
 import br.com.guava.api.guava.entity.Lancamento;
 import br.com.guava.api.guava.event.ResourceCreatedEvent;
 import br.com.guava.api.guava.exceptionhandle.GuavaExceptionHandler.Error;
@@ -114,6 +117,18 @@ public class LancamentoResource {
 		} catch (IllegalArgumentException e) {
 			return ResponseEntity.notFound().build();
 		}
+	}
+	
+	@GetMapping("/estatisticas/por-categoria")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public List<LancamentoEstatisticaCategoriaDTO> porCategoria() {
+		return this.lancamentoRepository.porCategoria(LocalDate.now());
+	}
+	
+	@GetMapping("/estatisticas/por-dia")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public List<LancamentoEstatisticaDiaDTO> porDia() {
+		return this.lancamentoRepository.porDia(LocalDate.now());
 	}
 
 }
