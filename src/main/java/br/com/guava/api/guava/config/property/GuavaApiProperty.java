@@ -12,6 +12,13 @@ public class GuavaApiProperty {
 	private String originPermitida = "http://localhost:4200";
 
 	private final Security security = new Security();
+	
+	private final Mail mail = new Mail();
+	
+	public Mail getMail() {
+
+		return mail;
+	}
 
 	public Security getSecurity() {
 
@@ -31,6 +38,18 @@ public class GuavaApiProperty {
 
 			this.enableHttps = enableHttps;
 		}
+	}
+	
+	@Getter @Setter
+	public static class Mail {
+		
+		private String host;
+		
+		private Integer port;
+		
+		private String userName;
+		
+		private String password;
 	}
 
 }

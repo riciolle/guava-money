@@ -1,4 +1,4 @@
-package br.com.guava.api.guava.security;
+package br.com.guava.api.guava.config;
 
 import java.util.Arrays;
 

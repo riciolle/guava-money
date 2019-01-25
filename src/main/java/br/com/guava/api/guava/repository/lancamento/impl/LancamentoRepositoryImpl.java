@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 import br.com.guava.api.guava.dto.LancamentoEstatisticaCategoriaDTO;
 import br.com.guava.api.guava.dto.LancamentoEstatisticaDiaDTO;
+import br.com.guava.api.guava.dto.LancamentoEstatisticaPessoaDTO;
 import br.com.guava.api.guava.entity.Lancamento;
 import br.com.guava.api.guava.repository.filter.LancamentoFilter;
 import br.com.guava.api.guava.repository.lancamento.LancamentoRepositoryQuery;
@@ -158,6 +159,27 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
 		criteriaQuery.groupBy(root.get("tipo"),root.get("dataVencimento"));
 		TypedQuery<LancamentoEstatisticaDiaDTO> typedQuery = manager.createQuery(criteriaQuery);
+
+		return typedQuery.getResultList();
+	}
+
+	@Override
+	public List<LancamentoEstatisticaPessoaDTO> porPessoa(LocalDate dtInicio, LocalDate dtFim) {
+		CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+
+		CriteriaQuery<LancamentoEstatisticaPessoaDTO> criteriaQuery = criteriaBuilder.createQuery(LancamentoEstatisticaPessoaDTO.class);
+		Root<Lancamento> root = criteriaQuery.from(Lancamento.class);
+
+		criteriaQuery.select(criteriaBuilder.construct(LancamentoEstatisticaPessoaDTO.class,
+													   root.get("tipo"),
+													   root.get("pessoa"),
+													   criteriaBuilder.sum(root.get("valor"))));
+
+		criteriaQuery.where(criteriaBuilder.greaterThanOrEqualTo(root.get("dataVencimento"), dtInicio),
+							criteriaBuilder.lessThanOrEqualTo(root.get("dataVencimento"), dtFim));
+
+		criteriaQuery.groupBy(root.get("tipo"),root.get("pessoa"));
+		TypedQuery<LancamentoEstatisticaPessoaDTO> typedQuery = manager.createQuery(criteriaQuery);
 
 		return typedQuery.getResultList();
 	}

@@ -8,6 +8,12 @@
     },
     {
       "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty",
+      "name": "guava.mail",
+      "sourceMethod": "public br.com.guava.api.guava.config.property.GuavaApiProperty.Mail getMail() ",
+      "type": "br.com.guava.api.guava.config.property.GuavaApiProperty$Mail"
+    },
+    {
+      "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty",
       "name": "guava.security",
       "sourceMethod": "public br.com.guava.api.guava.config.property.GuavaApiProperty.Security getSecurity() ",
       "type": "br.com.guava.api.guava.config.property.GuavaApiProperty$Security"
@@ -15,9 +21,44 @@
   ],
   "properties": [
     {
+      "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty$Mail",
+      "name": "guava.mail.host",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty$Mail",
+      "name": "guava.mail.password",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty$Mail",
+      "name": "guava.mail.port",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty$Mail",
+      "name": "guava.mail.user-name",
+      "type": "java.lang.String"
+    },
+    {
       "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty",
       "name": "guava.origin-permitida",
       "type": "java.lang.String"
+    },
+    {
+      "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty$Security",
+      "name": "guava.security.enable-https",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty$Security",
+      "name": "guava.security.enable-https",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty$Security",
+      "name": "guava.security.enable-https",
+      "type": "java.lang.Boolean"
     },
     {
       "sourceType": "br.com.guava.api.guava.config.property.GuavaApiProperty$Security",

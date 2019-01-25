@@ -8,12 +8,14 @@ import org.springframework.data.domain.Pageable;
 
 import br.com.guava.api.guava.dto.LancamentoEstatisticaCategoriaDTO;
 import br.com.guava.api.guava.dto.LancamentoEstatisticaDiaDTO;
+import br.com.guava.api.guava.dto.LancamentoEstatisticaPessoaDTO;
 import br.com.guava.api.guava.entity.Lancamento;
 import br.com.guava.api.guava.repository.filter.LancamentoFilter;
 import br.com.guava.api.guava.repository.projection.ResumoLancamento;
 
 public interface LancamentoRepositoryQuery {
 
+	public List<LancamentoEstatisticaPessoaDTO> porPessoa(LocalDate dtInicio, LocalDate dtFim);
 	public List<LancamentoEstatisticaCategoriaDTO> porCategoria(LocalDate mesReferencia);
 	public List<LancamentoEstatisticaDiaDTO> porDia(LocalDate mesReferencia);
 	

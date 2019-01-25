@@ -1,4 +1,4 @@
-package br.com.guava.api.guava.security;
+package br.com.guava.api.guava.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
