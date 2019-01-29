@@ -22,15 +22,22 @@ public class MailConfig {
 
 		properties.put("mail.transport.protocol", "smtp");
 		properties.put("mail.smtp.auth", true);
-		properties.put("mail.starttls", true);
+		properties.put("mail.smtp.starttls.enable", true);
 		properties.put("mail.smtp.connectiontimeout", 10000);
 		
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 		mailSender.setJavaMailProperties(properties);
-		mailSender.setHost(guavaApiProperty.getMail().getHost());
-		mailSender.setPort(guavaApiProperty.getMail().getPort());
-		mailSender.setUsername(guavaApiProperty.getMail().getUserName());
-		mailSender.setPassword(guavaApiProperty.getMail().getPassword());
-		return mailSender;
+		if (guavaApiProperty.getMail().getHost() != null &&
+				guavaApiProperty.getMail().getPort() != null &&
+				guavaApiProperty.getMail().getUserName() != null &&
+				guavaApiProperty.getMail().getPassword() != null) {
+			mailSender.setHost(guavaApiProperty.getMail().getHost());
+			mailSender.setPort(guavaApiProperty.getMail().getPort());
+			mailSender.setUsername(guavaApiProperty.getMail().getUserName());
+			mailSender.setPassword(guavaApiProperty.getMail().getPassword());
+			return mailSender;
+		} else {
+			throw new RuntimeException("Erro ao tentar acessar informações para envio de e-mail.");
+		}
 	}
 }
