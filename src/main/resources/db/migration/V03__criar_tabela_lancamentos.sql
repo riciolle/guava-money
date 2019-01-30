@@ -1,5 +1,5 @@
  CREATE TABLE lancamento (
-	codigo SERIAL,
+	codigo BIGSERIAL,
 	descricao VARCHAR(50) NOT NULL,
 	data_vencimento DATE NOT NULL,
 	data_pagamento DATE,

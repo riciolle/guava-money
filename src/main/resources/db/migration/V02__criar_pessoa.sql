@@ -1,5 +1,5 @@
   CREATE TABLE pessoa (
-	codigo SERIAL,
+	codigo BIGSERIAL,
 	nome VARCHAR(64) NOT NULL,
 	logradouro VARCHAR(64),
 	numero VARCHAR(64),

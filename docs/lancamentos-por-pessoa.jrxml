@@ -8,8 +8,8 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="total" class="java.math.BigDecimal"/>
-	<field name="tipo" class="br.com.guava.api.guava.enums.TipoLancamentoEnum"/>
-	<field name="pessoa" class="br.com.guava.api.guava.entity.Pessoa"/>
+	<field name="tipo" class="br.com.guava.api.enums.TipoLancamentoEnum"/>
+	<field name="pessoa" class="br.com.guava.api.entity.Pessoa"/>
 	<title>
 		<band height="60" splitType="Stretch">
 			<textField>

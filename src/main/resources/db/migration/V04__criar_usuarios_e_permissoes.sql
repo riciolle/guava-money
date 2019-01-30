@@ -1,5 +1,5 @@
  CREATE TABLE usuario (
-	codigo SERIAL NOT NULL,
+	codigo BIGSERIAL NOT NULL,
 	nome VARCHAR(64) NOT NULL,
 	email VARCHAR(64) NOT NULL,
 	senha VARCHAR(192) NOT NULL,
@@ -7,7 +7,7 @@ CONSTRAINT pk_codigo_usuario PRIMARY KEY (codigo)
 );
 
 CREATE TABLE permissao (
-	codigo BIGINT,
+	codigo BIGSERIAL,
 	descricao VARCHAR(64) NOT NULL,
 CONSTRAINT pk_codigo_permissao PRIMARY KEY (codigo)
 );
