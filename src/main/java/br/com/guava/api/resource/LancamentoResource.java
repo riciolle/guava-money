@@ -1,5 +1,8 @@
 package br.com.guava.api.resource;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.com.guava.api.dto.LancamentoEstatisticaCategoriaDTO;
 import br.com.guava.api.dto.LancamentoEstatisticaDiaDTO;
@@ -37,7 +41,6 @@ import br.com.guava.api.entity.Lancamento;
 import br.com.guava.api.event.ResourceCreatedEvent;
 import br.com.guava.api.exceptionhandle.GuavaExceptionHandler.Error;
 import br.com.guava.api.repository.LancamentoRepository;
-import br.com.guava.api.repository.PessoaRepository;
 import br.com.guava.api.repository.filter.LancamentoFilter;
 import br.com.guava.api.repository.projection.ResumoLancamento;
 import br.com.guava.api.service.LancamentoService;
@@ -53,13 +56,10 @@ public class LancamentoResource {
 	@Autowired
 	private LancamentoService lancamentoService;
 	
-	@Autowired
-	private PessoaRepository pessoaRepository; 
-
 	// E UM PUBLICADOR DE EVENTOS DA APLICAÇÃO
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
-	
+		
 	@Autowired
 	private MessageSource messageSource;
 
@@ -146,6 +146,16 @@ public class LancamentoResource {
 			return ResponseEntity.badRequest().body(null);
 		}
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE).body(relatorio);		
+	}
+	
+	@PostMapping("/anexo")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
+	public String uploadAnexo(@RequestParam MultipartFile file) throws IOException {
+		OutputStream out = new FileOutputStream("C:\\Central_IT\\Guava Money--" + file.getOriginalFilename());
+		out.write(file.getBytes());
+		out.close();
+		return "ok";
+		
 	}
 
 }

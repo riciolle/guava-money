@@ -14,11 +14,25 @@ public class PessoaServiceImpl implements PessoaService {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	@Override
+	public Pessoa save(Pessoa pessoa) {
+		try {
+			pessoa.getContatos().forEach(c -> c.setPessoa(pessoa));
+			return pessoaRepository.save(pessoa);
+		} catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+	}
 
 	@Override
 	public Pessoa update(Long codigo ,Pessoa pessoa) {
 		Pessoa pessoaSaved = getByCodigo(codigo);
-		BeanUtils.copyProperties(pessoa, pessoaSaved, "codigo");
+		
+		pessoaSaved.getContatos().clear();
+		pessoaSaved.getContatos().addAll(pessoa.getContatos());
+		pessoaSaved.getContatos().forEach(c -> c.setPessoa(pessoaSaved));
+		BeanUtils.copyProperties(pessoa, pessoaSaved, "codigo", "contatos");
 		return pessoaRepository.save(pessoaSaved);
 	}
 	

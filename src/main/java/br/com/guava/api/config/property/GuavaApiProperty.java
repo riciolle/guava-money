@@ -15,6 +15,8 @@ public class GuavaApiProperty {
 	
 	private final Mail mail = new Mail();
 	
+	private final S3 s3 = new S3();
+	
 	public Mail getMail() {
 
 		return mail;
@@ -23,6 +25,10 @@ public class GuavaApiProperty {
 	public Security getSecurity() {
 
 		return security;
+	}
+	
+	public S3 getS3() {
+		return s3;
 	}
 
 	public static class Security {
@@ -52,4 +58,13 @@ public class GuavaApiProperty {
 		private String password;
 	}
 
+	@Getter @Setter
+	public static class S3 {
+		
+		private String accessKeyId;
+		
+		private String secretAccessKey;
+		
+		private String bucket = "gm-guavamoney-file";
+	}
 }

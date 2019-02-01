@@ -10,4 +10,6 @@ public interface PessoaService {
 
 	Pessoa getByCodigo(Long codigo);
 
+	Pessoa save(Pessoa pessoa);
+
 }

@@ -16,11 +16,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.guava.api.enums.TipoLancamentoEnum;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "lancamento")
+@Getter @Setter @EqualsAndHashCode
 public class Lancamento {
 
 	@Id
@@ -54,82 +59,12 @@ public class Lancamento {
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "codigo_pessoa")
+	@JsonIgnoreProperties("contatos")
 	private Pessoa pessoa;
 	
 	@JsonIgnore
 	public boolean isReceita() {
 		return TipoLancamentoEnum.RECEITA.equals(this.tipo);
 	}
-
-	public Long getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(Long codigo) {
-		this.codigo = codigo;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public LocalDate getDataVencimento() {
-		return dataVencimento;
-	}
-
-	public void setDataVencimento(LocalDate dataVencimento) {
-		this.dataVencimento = dataVencimento;
-	}
-
-	public LocalDate getDataPagamento() {
-		return dataPagamento;
-	}
-
-	public void setDataPagamento(LocalDate dataPagamento) {
-		this.dataPagamento = dataPagamento;
-	}
-
-	public BigDecimal getValor() {
-		return valor;
-	}
-
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
-
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
-	}
-
-	public TipoLancamentoEnum getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(TipoLancamentoEnum tipo) {
-		this.tipo = tipo;
-	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
+	
 }

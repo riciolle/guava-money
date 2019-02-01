@@ -7,11 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,7 +34,6 @@ public class Contato {
 	@NotEmpty
 	private String telefone;
 	
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "codigo_pessoa")
 	private Pessoa pessoa;

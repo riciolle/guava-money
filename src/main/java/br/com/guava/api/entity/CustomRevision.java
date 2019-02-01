@@ -5,11 +5,12 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Table;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Table(name = "CUSTOM_REVISION_ENTITY")
-@Getter @Setter
+@Getter @Setter @EqualsAndHashCode
 public class CustomRevision implements Serializable{
     
     private static final long serialVersionUID = 3775550420286576001L;
