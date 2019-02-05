@@ -10,14 +10,14 @@ import lombok.Setter;
 @Getter @Setter
 public class LancamentoEstatisticaDiaDTO {
 
-	private TipoLancamentoEnum tipoLancamento;
+	private TipoLancamentoEnum tipo;
 	
 	private LocalDate dia;
 	
 	private BigDecimal total;
-
-	public LancamentoEstatisticaDiaDTO(TipoLancamentoEnum tipoLancamento, LocalDate dia, BigDecimal total) {
-		this.tipoLancamento = tipoLancamento;
+	
+	public LancamentoEstatisticaDiaDTO(TipoLancamentoEnum tipo, LocalDate dia, BigDecimal total) {
+		this.tipo = tipo;
 		this.dia = dia;
 		this.total = total;
 	}

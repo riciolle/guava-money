@@ -22,21 +22,21 @@ INSERT INTO pessoa (nome, logradouro, numero, complemento, bairro, cep, cidade, 
 
 -- INSERIR LANCAMENTOS
 
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Salário mensal', '2019-01-10', null, 6500.00, 'Distribuição de lucros', 'RECEITA', 1, 1);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Bahamas', '2019-02-10', '2019-02-10', 100.32, null, 'DESPESA', 2, 2);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Top Club', '2019-01-10', null, 120, null, 'RECEITA', 3, 3);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('CEMIG', '2019-02-10', '2019-02-10', 110.44, 'Geração', 'RECEITA', 3, 4);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('DMAE', '2019-01-10', null, 200.30, null, 'DESPESA', 3, 5);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Extra', '2019-03-10', '2019-03-10', 1010.32, null, 'RECEITA', 4, 6);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Bahamas', '2019-01-10', null, 500, null, 'RECEITA', 1, 7);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Top Club', '2019-03-10', '2019-03-10', 400.32, null, 'DESPESA', 4, 8);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Despachante', '2019-01-10', null, 123.64, 'Multas', 'DESPESA', 3, 9);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Pneus', '2019-04-10', '2019-04-10', 665.33, null, 'RECEITA', 5, 10);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Café', '2019-01-10', null, 8.32, null, 'DESPESA', 1, 5);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Eletrônicos', '2019-04-10', '2019-04-10', 2100.32, null, 'DESPESA', 5, 4);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Instrumentos', '2019-01-10', null, 1040.32, null, 'DESPESA', 4, 3);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Café', '2019-04-10', '2019-04-10', 4.32, null, 'DESPESA', 4, 2);
-INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Lanche', '2019-01-10', null, 10.20, null, 'DESPESA', 4, 1);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Salário mensal', '2019-01-11', null, 6500.00, 'Distribuição de lucros', 'RECEITA', 1, 1);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Bahamas', '2019-02-01', '2019-02-10', 100.32, null, 'DESPESA', 2, 2);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Top Club', '2019-01-02', null, 120, null, 'RECEITA', 3, 3);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('CEMIG', '2019-02-02', '2019-02-10', 110.44, 'Geração', 'RECEITA', 3, 4);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('DMAE', '2019-01-11', null, 200.30, null, 'DESPESA', 3, 5);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Extra', '2019-03-12', '2019-03-16', 1010.32, null, 'RECEITA', 4, 6);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Bahamas', '2019-01-12', null, 500, null, 'RECEITA', 1, 7);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Top Club', '2019-03-11', '2019-03-19', 400.32, null, 'DESPESA', 4, 8);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Despachante', '2019-01-12', null, 123.64, 'Multas', 'DESPESA', 3, 9);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Pneus', '2019-04-10', '2019-04-13', 665.33, null, 'RECEITA', 5, 10);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Café', '2019-01-20', null, 8.32, null, 'DESPESA', 1, 5);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Eletrônicos', '2019-04-20', '2019-04-12', 2100.32, null, 'DESPESA', 5, 4);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Instrumentos', '2019-01-20', null, 1040.32, null, 'DESPESA', 4, 3);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Café', '2019-04-14', '2019-04-17', 4.32, null, 'DESPESA', 4, 2);
+INSERT INTO lancamento (descricao, data_vencimento, data_pagamento, valor, observacao, tipo, codigo_categoria, codigo_pessoa) values ('Lanche', '2019-01-14', null, 10.20, null, 'DESPESA', 4, 1);
 
 -- INSERIR USUARIO E PERMISSOES
 INSERT INTO usuario (codigo, nome, email, senha) values (1, 'Administrador', 'admin', '$2a$10$K5l5eMLRAJdiuKflgzkpheYk4u6J.RyBECpAUJZmlT4xe.OO65PKe');

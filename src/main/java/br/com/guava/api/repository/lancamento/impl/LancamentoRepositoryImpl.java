@@ -149,7 +149,8 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
 		criteriaQuery.select(criteriaBuilder.construct(LancamentoEstatisticaDiaDTO.class,
 													   root.get("tipo"), 
-													   criteriaBuilder.sum(root.get("dataVencimento"))));
+													   root.get("dataVencimento"),
+													   criteriaBuilder.sum(root.get("valor"))));
 
 		LocalDate primeiroDia = mesReferencia.withDayOfMonth(1);
 		LocalDate ultimoDia = mesReferencia.withDayOfMonth(mesReferencia.lengthOfMonth());
@@ -162,7 +163,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
 		return typedQuery.getResultList();
 	}
-
+	
 	@Override
 	public List<LancamentoEstatisticaPessoaDTO> porPessoa(LocalDate dtInicio, LocalDate dtFim) {
 		CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
