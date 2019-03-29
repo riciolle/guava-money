@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import br.com.guava.api.dto.LancamentoEstatisticaPessoaDTO;
 import br.com.guava.api.entity.Lancamento;
@@ -25,6 +26,7 @@ import br.com.guava.api.repository.PessoaRepository;
 import br.com.guava.api.repository.UsuarioRepository;
 import br.com.guava.api.service.LancamentoService;
 import br.com.guava.api.service.exception.PessoaInexistenteOuInativaException;
+import br.com.guava.api.storage.S3;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -32,30 +34,34 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class LancamentoServiceImpl implements LancamentoService {
-	
+
 	private static final String DESTINATARIOS = "ROLE_PESQUISAR_LANCAMENTO";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LancamentoServiceImpl.class);
-	
+
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
+	private S3 s3;
+
+	@Autowired
 	private Mailer mailer;
-	
+
 	@Scheduled(cron = "0 0 6 * * *")
 	public void informarLancamentoVencido() {
 		if (LOGGER.isDebugEnabled()) {
 			LOGGER.debug("Preparando o envio de e-mails para aviso de lançamentos vencidos");
 		}
 		try {
-			List<Lancamento> vencidos = lancamentoRepository.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
+			List<Lancamento> vencidos = lancamentoRepository
+					.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
 			if (vencidos.isEmpty()) {
 				LOGGER.info("Não existem Lançamentos vencidos para enviar e-mail");
 				return;
@@ -69,7 +75,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 			mailer.warnAboutReleasesLosers(vencidos, destinatarios);
 			LOGGER.info("Envio de e-amil de aviso concluído.");
 		} catch (Exception exception) {
-			
+
 		}
 	}
 
@@ -81,7 +87,8 @@ public class LancamentoServiceImpl implements LancamentoService {
 		parametros.put("DT_FIM", Date.valueOf(dtFim));
 		parametros.put("REPORT_LOCALE", new Locale("pt", "BR"));
 		InputStream inputStream = this.getClass().getResourceAsStream("/relatorios/lancamentos-por-pessoa.jasper");
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros,new JRBeanCollectionDataSource(dados));
+		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros,
+				new JRBeanCollectionDataSource(dados));
 		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}
 
@@ -91,6 +98,10 @@ public class LancamentoServiceImpl implements LancamentoService {
 		if (pessoaSaved == null || pessoaSaved.isInativo()) {
 			throw new PessoaInexistenteOuInativaException();
 		}
+		
+		if (StringUtils.hasText(lancamento.getAnexo())) {
+			s3.salvar(lancamento.getAnexo());
+		}
 		return lancamentoRepository.save(lancamento);
 	}
 
@@ -99,6 +110,13 @@ public class LancamentoServiceImpl implements LancamentoService {
 		Lancamento lancamentoAux = buscarLancamentoExistente(codigo);
 		if (!lancamento.getPessoa().equals(lancamentoAux.getPessoa())) {
 			validarPessoa(lancamento);
+		}
+
+		if (StringUtils.isEmpty(lancamento.getAnexo()) && StringUtils.hasText(lancamentoAux.getAnexo().toString())) {
+			// remover(lancamento.getAnexo());
+		} else if (StringUtils.hasLength(lancamento.getAnexo().toString())
+				&& !lancamento.getAnexo().equals(lancamentoAux.getAnexo())) {
+			//s3.substituir(lancamentoAux.getAnexo(), lancamento.getAnexo());
 		}
 
 		BeanUtils.copyProperties(lancamento, lancamentoAux, "codigo");
@@ -124,5 +142,11 @@ public class LancamentoServiceImpl implements LancamentoService {
 		}
 		return lancamento;
 	}
+
+	/*
+	 * public void remover(String anexo) { DeleteObjectRequest deleteObject = new
+	 * DeleteObjectRequest(property.getS3().getBucket(), anexo);
+	 * amazonS3.deleteObject(deleteObject); }
+	 */
 
 }

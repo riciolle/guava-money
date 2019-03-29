@@ -6,6 +6,7 @@
 	valor DECIMAL(10,2) NOT NULL,
 	observacao VARCHAR(100),
 	tipo VARCHAR(20) NOT NULL,
+	anexo VARCHAR(200),
 	codigo_categoria BIGINT NOT NULL,
 	codigo_pessoa BIGINT NOT NULL,
 CONSTRAINT pk_codigo_lancamento PRIMARY KEY (codigo),

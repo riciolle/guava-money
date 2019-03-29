@@ -1,8 +1,6 @@
 package br.com.guava.api.resource;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.guava.api.dto.AnexoDTO;
 import br.com.guava.api.dto.LancamentoEstatisticaCategoriaDTO;
 import br.com.guava.api.dto.LancamentoEstatisticaDiaDTO;
 import br.com.guava.api.entity.Lancamento;
@@ -45,6 +44,7 @@ import br.com.guava.api.repository.filter.LancamentoFilter;
 import br.com.guava.api.repository.projection.ResumoLancamento;
 import br.com.guava.api.service.LancamentoService;
 import br.com.guava.api.service.exception.PessoaInexistenteOuInativaException;
+import br.com.guava.api.storage.S3;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -60,6 +60,9 @@ public class LancamentoResource {
 	@Autowired
 	private ApplicationEventPublisher applicationEventPublisher;
 		
+	@Autowired
+	private S3 s3;
+	
 	@Autowired
 	private MessageSource messageSource;
 
@@ -136,6 +139,7 @@ public class LancamentoResource {
 	}
 	
 	@GetMapping("/relatorio/por-pessoa")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public ResponseEntity<byte[]> relatorioPorPessoa(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dtInicio, 
 													 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dtFim) {
 		byte[] relatorio = null;
@@ -150,12 +154,9 @@ public class LancamentoResource {
 	
 	@PostMapping("/anexo")
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
-	public String uploadAnexo(@RequestParam MultipartFile file) throws IOException {
-		OutputStream out = new FileOutputStream("C:\\Central_IT\\Guava Money--" + file.getOriginalFilename());
-		out.write(file.getBytes());
-		out.close();
-		return "ok";
-		
+	public AnexoDTO uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
+		String nome = s3.salvarTemporariamente(anexo);
+		return new AnexoDTO(nome, s3.configurarUrl(nome));
 	}
 
 }
