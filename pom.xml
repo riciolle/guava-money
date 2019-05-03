@@ -36,6 +36,9 @@
 		<thymeleaf-extras-java8time.version>3.0.0.RELEASE</thymeleaf-extras-java8time.version>
 		<!-- Versão Amazon AWS S3 -->
 		<aws-java-sdk.version>1.11.274</aws-java-sdk.version>
+		<!-- Google Drive -->
+		<project.http.version>1.23.0</project.http.version>
+		<project.oauth.version>1.23.0</project.oauth.version>
 	</properties>
 
 	<dependencies>
@@ -161,7 +164,29 @@
 			<version>${aws-java-sdk.version}</version>
 		</dependency>
 
-	</dependencies>
+		<!-- Dependencias Google Drive -->
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-drive</artifactId>
+			<version>v3-rev86-1.23.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<version>${project.http.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson2</artifactId>
+			<version>${project.http.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client-jetty</artifactId>
+			<version>${project.oauth.version}</version>
+		</dependency>
+
+</dependencies>
 
 	<build>
 		<plugins>

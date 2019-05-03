@@ -24,7 +24,7 @@ public class AmazonS3Config {
 	@Autowired
 	private GuavaApiProperty property;
 
-	@Bean
+//	@Bean
 	public AmazonS3 amazonS3() {
 		try {
 

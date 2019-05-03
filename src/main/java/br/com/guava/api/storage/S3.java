@@ -33,7 +33,7 @@ public class S3 {
 	@Autowired
 	private GuavaApiProperty property;
 
-	@Autowired
+//	@Autowired
 	private AmazonS3 amazonS3;
 
 	public String salvarTemporariamente(MultipartFile file) {

@@ -48,7 +48,7 @@ public class LancamentoServiceImpl implements LancamentoService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	@Autowired
+//	@Autowired
 	private S3 s3;
 
 	@Autowired

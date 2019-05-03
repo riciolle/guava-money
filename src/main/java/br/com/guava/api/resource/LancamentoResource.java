@@ -158,5 +158,12 @@ public class LancamentoResource {
 		String nome = s3.salvarTemporariamente(anexo);
 		return new AnexoDTO(nome, s3.configurarUrl(nome));
 	}
+	
+	@PostMapping("/anexo_google")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
+	public AnexoDTO uploadAnexoGoogle(@RequestParam MultipartFile anexo) throws IOException {
+		String nome = s3.salvarTemporariamente(anexo);
+		return new AnexoDTO(nome, s3.configurarUrl(nome));
+	}
 
 }
